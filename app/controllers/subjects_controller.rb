@@ -15,6 +15,11 @@ class SubjectsController < ApplicationController
     erb :"subjects/new"
   end
 
+  get "/subjects/:id" do
+    @subject = Subject.find_by(id: params[:id])
+    erb :"subjects/show"
+  end
+
 
 
 end

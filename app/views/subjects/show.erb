@@ -1,0 +1,14 @@
+<h1><%=@subject.name%></h1>
+<p>
+  <a href="/students/new">Add a Student</a>
+</p>
+
+<h2>Students for this subject</h2>
+<%if !@subject.students.empty?%>
+  <%@subject.students.each do |student| %>
+    <%="Name of Student: #{student.name}"%>
+    <%="Date of Birth: #{student.dob}"%>
+    <%end%>
+  <%else%>
+    Looks like you don't teach any students for this subject!
+<%end%>
