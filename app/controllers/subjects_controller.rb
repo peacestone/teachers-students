@@ -25,6 +25,12 @@ class SubjectsController < ApplicationController
     erb :"/students/new"
   end
 
+  delete "/subjects/:id/delete" do
+    @subject = Subject.find_by(id: params[:id])
+    @subject.destroy
+    redirect "/subjects"
+  end
+
 
 
 end

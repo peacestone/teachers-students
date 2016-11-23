@@ -1,7 +1,6 @@
 class StudentsController < ApplicationController
 
   post "/students" do
-    #binding.pry
     @subject = Subject.find_by(id: params[:subject_id])
     @student = Student.create(params[:student])
     @subject.students << @student
