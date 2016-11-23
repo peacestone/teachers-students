@@ -20,6 +20,11 @@ class SubjectsController < ApplicationController
     erb :"subjects/show"
   end
 
+  get "/subjects/:id/students/new" do
+    @subject = Subject.find_by(id: params[:id])
+    erb :"/students/new"
+  end
+
 
 
 end

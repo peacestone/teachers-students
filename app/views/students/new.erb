@@ -1,0 +1,11 @@
+<h1>Add a Student to <%=@subject.name%></h1>
+
+<form class="" action="/students" method="post">
+  <p>
+    Student Name: <input type="text" name="student[name]" value=""><br>
+    Date of Birth: <input type="date" name="student[dob]" value="">
+    <input type="hidden" name="subject_id" value="<%=@subject.id%>">
+    <br><br> <input type="submit"  value="Add Student">
+  </p>
+
+</form>

@@ -1,0 +1,15 @@
+<h1><%=@student.name%></h1>
+<h2>Date of Birth: <%=@student.dob%></h2>
+
+<p>
+  <strong>Subjects that you teach <%=@student.name%>:<br><br></strong>
+  <%@subjects.each.with_index(1) do |subject, i| %>
+    <a href="/subjects/<%=subject.id%>"><%="#{i}. #{subject.name}"%></a>
+</p>
+<%end%>
+
+<strong><%=@student.name%>'s Teachers:</strong> <%@teachers.each.with_index(1) do |teacher, i|%>
+  <p>
+    <%="#{i}. #{teacher.name}"%>
+  </p>
+  <%end%>
