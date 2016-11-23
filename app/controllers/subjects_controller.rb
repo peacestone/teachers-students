@@ -6,10 +6,8 @@ class SubjectsController < ApplicationController
   end
 
   post "/subjects" do
-    #binding.pry
     @subject = Subject.create(name: params[:name])
     current_teacher.subjects << @subject
-
     params[:student_ids].each do |id|
       @subject.students << Student.find_by(id: id.to_i)
     end
@@ -55,6 +53,7 @@ class SubjectsController < ApplicationController
 
     @subject = Subject.find_by(id: params[:id])
     @subject.update(name: params[:name])
+    @subject.students.clear
     params[:student_ids].each do |id|
       @subject.students << Student.find_by(id: id.to_i)
     end

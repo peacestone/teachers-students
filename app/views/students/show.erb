@@ -13,3 +13,9 @@
     <%="#{i}. #{teacher.name}"%>
   </p>
   <%end%>
+
+  <form class="" action="/students/<%=@student.id%>/delete" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <input type="submit"  value="Remove Student">
+
+  </form>
