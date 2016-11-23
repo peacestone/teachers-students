@@ -1,0 +1,13 @@
+<h1>Welcome <%=current_teacher.name%>!</h1>
+<p>
+  <a href="/subjects/new">Add a Subject</a>
+</p>
+
+<%if !current_teacher.subjects.empty?%>
+<h2>Subjects that you teach:</h2>
+<%current_teacher.subjects.each do |subject| %>
+  <h3><a href="subjects/<%=subject.id%>"><%=subject.name%></a></h3>
+  <%end%>
+  <%else%>
+    <h2>Looks like you don't teach any subjects!</h2>
+<%end%>

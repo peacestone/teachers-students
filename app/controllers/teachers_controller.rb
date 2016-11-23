@@ -7,6 +7,18 @@ class TeachersController < ApplicationController
     @teacher = Teacher.create(params)
     session[:id] = @teacher.id
 
-    erb "subjects/subjects"
+    redirect "/subjects"
   end
+
+  post "/teachers/login" do
+    binding.pry
+    @teacher = Teacher.find_by(username: params[:username])
+    if @teacher && @teacher.authenticate(params[:password])
+      session[:id] = @teacher.id
+      redirect "/subjects"
+    else
+      redirect "/"
+    end
+  end
+
 end

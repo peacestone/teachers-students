@@ -13,5 +13,11 @@ class ApplicationController < Sinatra::Base
     erb :index
   end
 
+  helpers do
+    def current_teacher
+      Teacher.find_by(id: session[:id])
+    end
+  end
+
 
 end
