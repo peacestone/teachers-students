@@ -6,12 +6,24 @@ class SubjectsController < ApplicationController
   end
 
   post "/subjects" do
-    @subject = Subject.create(params)
+    #binding.pry
+    @subject = Subject.create(name: params[:name])
     current_teacher.subjects << @subject
-    redirect "/subjects"
+
+    params[:student_ids].each do |id|
+      @subject.students << Student.find_by(id: id.to_i)
+    end
+    if !params[:student][:name].empty?
+      student = Student.create(params[:student])
+      @subject.students << student
+    end
+    @subject.save
+
+    redirect "/subjects/#{@subject.id}"
   end
 
   get "/subjects/new" do
+    @students = Student.all
     erb :"subjects/new"
   end
 

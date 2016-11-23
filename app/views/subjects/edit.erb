@@ -1,0 +1,20 @@
+<h1>Edit <%=@subject.name%></h1>
+
+<form class="" action="/subjects/<%=@subject.id%>" method="post">
+  <p>
+    Subject Name: <input type="text" name="name" value="<%=@subject.name%>">
+  </p>
+  <strong>Select Students:</strong><br>
+  <%@students.each do |student| %>
+
+    <input type="checkbox" name="student_ids[]" value="<%=student.id%>" <%= 'checked' if @subject.students.include?(student)%>><%=student.name%>
+    <%end%>
+
+<p>
+  <strong>Missing a student?</strong><br>
+  Add a student to this subject:<br><br>
+  Student Name: <input type="text" name="student[name]" value=""><br>
+  Date of Birth: <input type="date" name="student[dob]" value="">
+</p>
+<input type="submit" value="Edit Subject">
+</form>
