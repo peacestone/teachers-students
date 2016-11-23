@@ -1,7 +1,7 @@
 class SubjectsController < ApplicationController
 
   get "/subjects" do
-    #binding.pry
+    @subjects = current_teacher.subjects
     erb :"subjects/subjects"
   end
 
