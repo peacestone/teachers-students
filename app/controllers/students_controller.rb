@@ -9,7 +9,7 @@ class StudentsController < ApplicationController
 
   get "/students/:id" do
     @student = Student.find_by(id: params[:id])
-    @teachers = @student.teachers if @student
+    @teachers = @student.teachers.distinct if @student
     @subjects = @student.subjects.where("teacher_id = ?", current_teacher.id)
     erb :"students/show"
   end
