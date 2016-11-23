@@ -1,7 +1,8 @@
 class StudentsController < ApplicationController
 
   get "/students" do
-    "Students List"
+    @students = current_teacher.students
+    erb :"students/students"
   end
 
   post "/students" do
@@ -22,6 +23,10 @@ class StudentsController < ApplicationController
     @student = Student.find_by(id: params[:id])
     @student.destroy
     redirect "/students"
+  end
+
+  get "/students/:id/edit" do
+    "edit student"
   end
 
 end
