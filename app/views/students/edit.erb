@@ -1,0 +1,14 @@
+<h1>Edit <%=@student.name%></h1>
+
+<form class="" action="/students/<%=@student.id%>" method="post">
+  <input type="hidden" name="_method" value="patch">
+  <p>
+      Student Name: <input type="text" name="student[name]" value="<%=@student.name%>">
+  </p>
+  <p>
+    Date of Birth: <input type="date" name="student[dob]" value="<%=@student.dob%>">
+  </p>
+  <p>
+    <input type="submit"  value="Edit Student">
+  </p>
+</form>

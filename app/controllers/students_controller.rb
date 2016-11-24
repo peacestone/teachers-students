@@ -1,15 +1,14 @@
 class StudentsController < ApplicationController
 
   get "/students" do
-    @students = current_teacher.students
+    @students = current_teacher.students.distinct
     erb :"students/students"
   end
 
   post "/students" do
-    @subject = Subject.find_by(id: params[:subject_id])
     @student = Student.create(params[:student])
-    @subject.students << @student
-    redirect "/subjects/#{@subject.id}"
+    binding.pry
+    redirect "/students"
   end
 
   get "/students/:id" do
@@ -19,6 +18,12 @@ class StudentsController < ApplicationController
     erb :"students/show"
   end
 
+  patch "/students/:id" do
+    @student = Student.find_by(id: params[:id])
+    @student.update(params[:student])
+    redirect "/students/#{@student.id}"
+  end
+
   delete "/students/:id/delete" do
     @student = Student.find_by(id: params[:id])
     @student.destroy
@@ -26,7 +31,8 @@ class StudentsController < ApplicationController
   end
 
   get "/students/:id/edit" do
-    "edit student"
+    @student = Student.find_by(id: params[:id])
+    erb :"students/edit"
   end
 
 end

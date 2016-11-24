@@ -1,0 +1,8 @@
+
+<h1>Your Students</h1>
+
+<%@students.each.with_index(1) do |student, i| %>
+  <p>
+    <a href="/students/<%=student.id%>"><%="#{i}. #{student.name}"%></a>
+  </p>
+  <%end%>
