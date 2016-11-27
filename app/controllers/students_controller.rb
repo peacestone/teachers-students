@@ -7,7 +7,6 @@ class StudentsController < ApplicationController
 
   post "/students" do
     @student = Student.create(params[:student])
-    binding.pry
     redirect "/students"
   end
 
