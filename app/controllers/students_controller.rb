@@ -61,7 +61,7 @@ class StudentsController < ApplicationController
     redirect "/students"
   end
 
-  get "/students/:id/edit"
+  get "/students/:id/edit" do
     @student = Student.find_by(id: params[:id])
     if logged_in? && current_teacher.students.include?(@student)
       erb :"students/edit"
