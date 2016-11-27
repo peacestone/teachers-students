@@ -1,13 +1,35 @@
 class StudentsController < ApplicationController
 
   get "/students" do
-    @students = current_teacher.students.distinct
-    erb :"students/students"
+    if logged_in?
+      @students = current_teacher.students.distinct
+      erb :"students/students"
+    else
+      redirect "/"
+    end
+  end
+
+  get "/students/new" do
+    if logged_in?
+      erb :"students/new"
+    else
+      redirect "/"
+    end
   end
 
   post "/students" do
-    @student = Student.create(params[:student])
-    redirect "/students"
+    #binding.pry
+    if !params[:student][:name].empty? && !params[:student][:dob].empty? && params[:subject_ids]
+      @student = Student.find_or_create_by(name: params[:student][:name], dob: params[:student][:dob])
+
+      params[:subject_ids].each do |id|
+        @student.subjects << Subject.find_by(id: id)
+      end
+      redirect "/students"
+    else
+      redirect "/students/new"
+    end
+
   end
 
   get "/students/:id" do

@@ -74,13 +74,6 @@ class SubjectsController < ApplicationController
 
   post "/subjects/:id" do
     @subject = Subject.find_by(id: params[:id])
-    @subject.update(name: params[:name])
-    @subject.students.clear
-      if params[:student_ids]
-        params[:student_ids].each do |id|
-          @subject.students << Student.find_by(id: id.to_i)
-        end
-      end
 
     if !params[:student][:name].empty? && !params[:student][:dob].empty?
       student = Student.create(params[:student])
@@ -88,6 +81,16 @@ class SubjectsController < ApplicationController
     elsif !params[:student][:name].empty? || !params[:student][:dob].empty?
       redirect "/subjects/#{@subject.id}/edit"
     end
+
+    @subject.update(name: params[:name])
+
+    @subject.students.clear
+      if params[:student_ids]
+        params[:student_ids].each do |id|
+          @subject.students << Student.find_by(id: id.to_i)
+        end
+      end
+      
     @subject.save
     redirect "/subjects/#{@subject.id}"
   end
