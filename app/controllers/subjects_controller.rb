@@ -22,6 +22,8 @@ class SubjectsController < ApplicationController
       if !params[:student][:name].empty? && !params[:student][:dob].empty?
         student = Student.create(params[:student])
         @subject.students << student
+      else
+        redirect "/subjects/new"
       end
       @subject.save
     else
@@ -32,19 +34,30 @@ class SubjectsController < ApplicationController
   end
 
   get "/subjects/new" do
-    @students = Student.all
-    erb :"subjects/new"
+    if logged_in?
+      @students = Student.all
+      erb :"subjects/new"
+    else
+      redirect "/"
   end
 
   get "/subjects/:id/edit" do
     @subject = Subject.find_by(id: params[:id])
     @students = Student.all
-    erb :"subjects/edit"
+    if logged_in? && current_teacher.subjects.include?(@subject)
+      erb :"subjects/edit"
+    else
+      redirect "/subjects"
+    end
   end
 
   get "/subjects/:id" do
     @subject = Subject.find_by(id: params[:id])
-    erb :"subjects/show"
+    if logged_in? && current_teacher.subjects.include?(@subject)
+      erb :"subjects/show"
+    else
+      redirect "/subjects"
+    end
   end
 
 
