@@ -34,26 +34,40 @@ class StudentsController < ApplicationController
 
   get "/students/:id" do
     @student = Student.find_by(id: params[:id])
-    @teachers = @student.teachers.distinct if @student
-    @subjects = @student.subjects.where("teacher_id = ?", current_teacher.id)
-    erb :"students/show"
+    if logged_in? && current_teacher.students.include?(@student)
+      @teachers = @student.teachers.distinct
+      @subjects = @student.subjects.where("teacher_id = ?", current_teacher.id)
+      erb :"students/show"
+    else
+      redirect "/students"
+    end
   end
 
   patch "/students/:id" do
     @student = Student.find_by(id: params[:id])
-    @student.update(params[:student])
-    redirect "/students/#{@student.id}"
+    if !params[:student][:name].empty? && !params[:student][:dob].empty?
+      @student.update(params[:student])
+      redirect "/students/#{@student.id}"
+    else
+      redirect "/students/#{@student.id}/edit"
+    end
   end
 
   delete "/students/:id/delete" do
     @student = Student.find_by(id: params[:id])
-    @student.destroy
+    if logged_in? && current_teacher.students.include?(@student)
+      @student.destroy
+    end
     redirect "/students"
   end
 
-  get "/students/:id/edit" do
+  get "/students/:id/edit"
     @student = Student.find_by(id: params[:id])
-    erb :"students/edit"
+    if logged_in? && current_teacher.students.include?(@student)
+      erb :"students/edit"
+    else
+      redirect "/students"
+    end
   end
 
 end
