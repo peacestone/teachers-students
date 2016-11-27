@@ -1,6 +1,13 @@
 class SubjectsController < ApplicationController
 
-  
+  get "/subjects" do
+    if logged_in?
+      @subjects = current_teacher.subjects
+      erb :"subjects/subjects"
+    else
+      redirect "/"
+    end
+  end
 
   post "/subjects" do
     if !params[:name].empty?
