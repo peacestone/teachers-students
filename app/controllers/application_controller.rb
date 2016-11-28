@@ -9,14 +9,7 @@ class ApplicationController < Sinatra::Base
     set :session_secret, "dragon ball"
   end
 
-  get "/" do
-    erb :index
-  end
-
-  get "/logout" do
-    session.clear
-    redirect "/"
-  end
+  
 
   helpers do
     def current_teacher
