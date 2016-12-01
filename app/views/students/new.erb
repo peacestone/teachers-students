@@ -4,7 +4,13 @@
   <p>
     Student Name: <input type="text" name="student[name]" value=""><br>
     Date of Birth: <input type="date" name="student[dob]" value="">
+    <p>
+      Check the subjects your student learns:
+    </p>
 
+      <%current_teacher.subjects.each do |subject| %>
+        <input type="checkbox" name="subject_ids[]" value="<%=subject.id%>"><%=subject.name%>
+      <%end%>
     <br><br> <input type="submit"  value="Add Student">
   </p>
 

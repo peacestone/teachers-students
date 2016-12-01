@@ -10,9 +10,6 @@ class ApplicationController < Sinatra::Base
   end
 
 
-
-
-
   helpers do
     def current_teacher
       @teacher ||= Teacher.find_by(id: session[:id])
