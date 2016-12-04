@@ -10,26 +10,31 @@ class SubjectsController < ApplicationController
   end
 
   post "/subjects" do
-    @subject = Subject.create(name: params[:name])
+    @subject = current_teacher.subjects.new(name: params[:name])
 
     if params[:student_ids]
       params[:student_ids].each do |id|
         @subject.students << Student.find_by(id: id.to_i)
       end
     end
-
+    # if new student inputed
     if !params[:student][:name].empty? || !params[:student][:dob].empty?
-      student = Student.create(params[:student])
-      if student.valid?
-        @subject.students << student
+      @student = Student.new(params[:student])
+
+      if @student.valid? && @subject.valid?
+        @student.save
+        @subject.save
+        @subject.students << @student
+        @subject.save
+        redirect "/subjects/#{@subject.id}"
       else
         redirect "/subjects/new"
       end
     end
 
+    # When no new student inputed
     if @subject.valid?
       @subject.save
-      current_teacher.subjects << @subject
       redirect "/subjects/#{@subject.id}"
     else
       redirect "/subjects/new"
