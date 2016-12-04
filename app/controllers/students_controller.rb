@@ -18,17 +18,16 @@ class StudentsController < ApplicationController
   end
 
   post "/students" do
-    if !params[:student][:name].empty? && !params[:student][:dob].empty? && params[:subject_ids]
-      @student = Student.find_or_create_by(name: params[:student][:name], dob: params[:student][:dob])
-
+    @student = Student.new(name: params[:student][:name], dob: params[:student][:dob])
+    if @student.valid? && params[:subject_ids]
+      @student.save
       params[:subject_ids].each do |id|
         @student.subjects << Subject.find_by(id: id)
       end
       redirect "/students"
     else
-      redirect "/students/new"
+    redirect "/students/new"
     end
-
   end
 
   get "/students/:id" do

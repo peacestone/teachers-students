@@ -14,7 +14,7 @@ class SubjectsController < ApplicationController
 
     if params[:student_ids]
       params[:student_ids].each do |id|
-        @subject.students << Student.find_by(id: id.to_i)
+        @subject.students << Student.find_by(id: id)
       end
     end
     # if new student inputed
@@ -69,9 +69,6 @@ class SubjectsController < ApplicationController
     end
   end
 
-
-
-
   delete "/subjects/:id/delete" do
     @subject = Subject.find_by(id: params[:id])
     if logged_in? && current_teacher.subjects.include?(@subject)
@@ -79,6 +76,7 @@ class SubjectsController < ApplicationController
     end
     redirect "/subjects"
   end
+
 
   post "/subjects/:id" do
     @subject = current_teacher.subjects.find_by(id: params[:id])
@@ -91,7 +89,7 @@ class SubjectsController < ApplicationController
         @subject.students.clear
         if params[:student_ids]
           params[:student_ids].each do |id|
-            @subject.students << Student.find_by(id: id.to_i)
+            @subject.students << Student.find_by(id: id)
           end
         end
         @student.save
@@ -102,14 +100,13 @@ class SubjectsController < ApplicationController
       else
         redirect "/subjects/#{@subject.id}/edit"
       end
-
     #When no new student inputed
     else
       if @subject.valid?
         @subject.students.clear
         if params[:student_ids]
           params[:student_ids].each do |id|
-            @subject.students << Student.find_by(id: id.to_i)
+            @subject.students << Student.find_by(id: id)
           end
         end
         @subject.save
