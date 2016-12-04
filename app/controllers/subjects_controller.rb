@@ -82,32 +82,42 @@ class SubjectsController < ApplicationController
 
   post "/subjects/:id" do
     @subject = current_teacher.subjects.find_by(id: params[:id])
-    @subject.update(name: params[:name])
+    @subject.name = params[:name]
 
-    if @subject.invalid?
-      redirect "/subjects/#{@subject.id}/edit"
-    end
-
-    @subject.students.clear
-
-    if !params[:student][:name].empty? && !params[:student][:dob].empty?
-      student = Student.create(params[:student])
-      @subject.students << student
-    elsif !params[:student][:name].empty? || !params[:student][:dob].empty?
-      redirect "/subjects/#{@subject.id}/edit"
-    end
-
-    #@subject.update(name: params[:name])
-
-    #@subject.students.clear
-      if params[:student_ids]
-        params[:student_ids].each do |id|
-          @subject.students << Student.find_by(id: id.to_i)
+    #When new student inputed
+    if !params[:student][:name].empty? || !params[:student][:dob].empty?
+      @student = Student.new(params[:student])
+      if @student.valid? && @subject.valid?
+        @subject.students.clear
+        if params[:student_ids]
+          params[:student_ids].each do |id|
+            @subject.students << Student.find_by(id: id.to_i)
+          end
         end
+        @student.save
+        @subject.save
+        @subject.students << @student
+        @subject.save
+        redirect "/subjects/#{@subject.id}"
+      else
+        redirect "/subjects/#{@subject.id}/edit"
       end
 
-    @subject.save
-    redirect "/subjects/#{@subject.id}"
+    #When no new student inputed
+    else
+      if @subject.valid?
+        @subject.students.clear
+        if params[:student_ids]
+          params[:student_ids].each do |id|
+            @subject.students << Student.find_by(id: id.to_i)
+          end
+        end
+        @subject.save
+        redirect "/subjects/#{@subject.id}"
+      else
+        redirect "/subjects/#{@subject.id}/edit"
+      end
+    end
   end
 
 end

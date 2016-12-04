@@ -6,4 +6,5 @@ class Student < ActiveRecord::Base
 
   validates :name, uniqueness: { scope: :dob, case_sensitive: false }
 
+
 end
