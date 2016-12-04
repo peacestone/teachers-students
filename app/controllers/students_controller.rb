@@ -28,6 +28,7 @@ class StudentsController < ApplicationController
     else
     redirect "/students/new"
     end
+
   end
 
   get "/students/:id" do
@@ -42,9 +43,9 @@ class StudentsController < ApplicationController
   end
 
   patch "/students/:id" do
-    @student = Student.find_by(id: params[:id])
-    if !params[:student][:name].empty? && !params[:student][:dob].empty?
-      @student.update(params[:student])
+    @student = current_teacher.students.find_by(id: params[:id])
+    @student.update(params[:student])
+    if @student.valid?
       redirect "/students/#{@student.id}"
     else
       redirect "/students/#{@student.id}/edit"
