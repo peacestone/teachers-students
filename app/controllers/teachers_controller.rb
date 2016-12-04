@@ -5,9 +5,12 @@ class TeachersController < ApplicationController
 
   post "/teachers" do
     @teacher = Teacher.create(params)
-    session[:id] = @teacher.id
-
-    redirect "/subjects"
+    if @teacher.valid?
+      session[:id] = @teacher.id
+      redirect "/subjects"
+    else
+      redirect "/teachers/new"
+    end
   end
 
   post "/teachers/login" do
