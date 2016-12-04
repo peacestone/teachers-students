@@ -10,13 +10,7 @@ class SubjectsController < ApplicationController
   end
 
   post "/subjects" do
-
     @subject = Subject.create(name: params[:name])
-    if @subject.valid?
-      current_teacher.subjects << @subject
-    else
-      redirect "/subjects/new"
-    end
 
     if params[:student_ids]
       params[:student_ids].each do |id|
@@ -24,15 +18,22 @@ class SubjectsController < ApplicationController
       end
     end
 
-    if !params[:student][:name].empty? && !params[:student][:dob].empty?
+    if !params[:student][:name].empty? || !params[:student][:dob].empty?
       student = Student.create(params[:student])
-      @subject.students << student
-    elsif !params[:student][:name].empty? || !params[:student][:dob].empty?
+      if student.valid?
+        @subject.students << student
+      else
+        redirect "/subjects/new"
+      end
+    end
+
+    if @subject.valid?
+      @subject.save
+      current_teacher.subjects << @subject
+      redirect "/subjects/#{@subject.id}"
+    else
       redirect "/subjects/new"
     end
-    @subject.save
-
-    redirect "/subjects/#{@subject.id}"
   end
 
   get "/subjects/new" do
