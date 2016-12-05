@@ -10,6 +10,7 @@ gem 'sqlite3'
 gem 'shotgun'
 gem 'pry'
 gem 'thin'
+gem 'rack-flash3'
 
 gem 'require_all'
 gem 'bcrypt'

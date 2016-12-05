@@ -9,8 +9,13 @@ class ApplicationController < Sinatra::Base
     set :session_secret, "dragon ball"
   end
 
+
   get "/" do
-    erb :index
+    if logged_in?
+      redirect "/subjects"
+    else
+      erb :index
+    end    
   end
 
   get "/logout" do

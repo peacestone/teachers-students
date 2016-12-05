@@ -1,5 +1,4 @@
 <h1>Add a subject</h1>
-
 <form class="" action="/subjects" method="post">
   <p>
     Subject Name: <input type="text" name="name" value="">
@@ -17,3 +16,22 @@
 </p>
 <input type="submit" value="Add Subject">
 </form>
+<% if @student  || @subject %>
+    <div id="error_explanation">
+      <p>
+        <strong> Errors that are prohibiting this subject from being saved:</strong>
+        <% if @subject && @subject.invalid? %>
+        <ul>
+        <% @subject.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        <% end %>
+        <% if @student && @student.invalid?%>
+        <% @student.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+      </p>
