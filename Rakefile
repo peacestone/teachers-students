@@ -1,3 +1,4 @@
+require 'zlib'
 
 
 require 'sinatra/activerecord/rake'
